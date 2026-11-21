@@ -1,4 +1,4 @@
-import { AshColors, LightColors } from './discord-defaults'
+import { AshColors, LightColors } from '#shared/discord-defaults'
 import type { ThemeColors } from '@valenced/themes-api/types'
 
 export interface Palette {
