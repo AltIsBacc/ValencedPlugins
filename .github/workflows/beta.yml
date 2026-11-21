@@ -1,0 +1,61 @@
+name: Beta builds
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'plugins/**'
+      - 'themes/**'
+      - 'shared/**'
+      - 'package.json'
+      - 'bun.lock'
+      - 'tsconfig.base.json'
+      - 'scripts/debug-builds.ts'
+  workflow_dispatch:
+
+concurrency:
+  group: beta-builds
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+env:
+  POOL_BRANCH: ${{ vars.POOL_BRANCH }}
+  PAGES_BASE_URL: ${{ vars.PAGES_BASE_URL }}
+  POOL_REMOTE: https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git
+  PLAN: ${{ github.workspace }}/debug-releases.json
+
+jobs:
+  beta:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 25
+
+      - run: bun install
+
+      - name: Check out the published pool
+        run: .github/scripts/checkout-pool.sh
+
+      - name: Build debug bundles
+        run: ./gradlew --no-daemon packageAllPlugins -Pdev=true
+        env:
+          GITHUB_TOKEN: ${{ secrets.READ_PACKAGES_TOKEN }}
+
+      - name: Repackage as debug builds
+        run: |
+          bun scripts/debug-builds.ts \
+            --dist build/dist \
+            --out build/debug \
+            --build "${{ github.run_number }}" \
+            --pool published/pool \
+            --keep 4 \
+            --plan "$PLAN"
+
+      - name: Publish to the pool
+        run: .github/scripts/publish-pool.sh
