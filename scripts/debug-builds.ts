@@ -19,6 +19,7 @@ const DEBUG_SUFFIX = '.debug'
 interface Manifest {
 	id: string
 	name: string
+	description?: string
 	version: string
 	[key: string]: unknown
 }
@@ -60,7 +61,12 @@ function compareNumbers(a: number[], b: number[]) {
 	return 0
 }
 
-function buildDebugZip(zip: string, outDir: string, build: number) {
+function buildDebugZip(
+	zip: string,
+	outDir: string,
+	build: number,
+	commit: string,
+) {
 	const work = mkdtempSync(join(tmpdir(), 'debug-build-'))
 	try {
 		exec('unzip', ['-q', zip, '-d', work])
@@ -75,6 +81,9 @@ function buildDebugZip(zip: string, outDir: string, build: number) {
 			...manifest,
 			id,
 			name: `${manifest.name} (debug)`,
+			description: [manifest.description, `(${commit})`]
+				.filter(Boolean)
+				.join(' '),
 			version,
 		}
 		writeFileSync(
@@ -121,6 +130,7 @@ function main() {
 			dist: { type: 'string', default: 'build/dist' },
 			out: { type: 'string', default: 'build/debug' },
 			build: { type: 'string' },
+			commit: { type: 'string' },
 			plan: { type: 'string', default: 'debug-releases.json' },
 			pool: { type: 'string' },
 			keep: { type: 'string', default: '4' },
@@ -130,6 +140,10 @@ function main() {
 	const build = Number(values.build)
 	if (!values.build || !Number.isInteger(build) || build < 0)
 		fail('Pass --build <number>, the build number to put in the version.')
+
+	const commit = values.commit?.slice(0, 7) ?? ''
+	if (!/^[0-9a-f]{7}$/i.test(commit))
+		fail('Pass --commit <sha>, the commit these builds come from.')
 
 	const keep = Number(values.keep)
 	if (!Number.isInteger(keep) || keep < 0)
@@ -145,7 +159,7 @@ function main() {
 
 	mkdirSync(values.out, { recursive: true })
 	const plan = zips.map(name =>
-		buildDebugZip(join(values.dist, name), values.out, build),
+		buildDebugZip(join(values.dist, name), values.out, build, commit),
 	)
 	for (const { file } of plan) console.log(`+ ${file}`)
 

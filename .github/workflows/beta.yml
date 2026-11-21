@@ -53,6 +53,7 @@ jobs:
             --dist build/dist \
             --out build/debug \
             --build "${{ github.run_number }}" \
+            --commit "${{ github.sha }}" \
             --pool published/pool \
             --keep 4 \
             --plan "$PLAN"
