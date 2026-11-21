@@ -2,8 +2,8 @@
 
 import { OwnProfileSettings } from '../../../shared/own-profile-setting'
 import { themeOwnProfile } from '../../../shared/own-profile-theme'
-import type { OwnProfileStorage } from '../../../shared/own-profile-theme'
 import { lazyColors } from '../../../shared/theme-kit'
+import type { OwnProfileStorage } from '../../../shared/own-profile-theme'
 import type { Look, Palette, Tone } from '../../../shared/theme-kit'
 
 const tone: Tone = {
