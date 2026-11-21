@@ -2,10 +2,6 @@
 	"name": "@thatmg393/valenced-plugins",
 	"private": true,
 	"type": "module",
-	"imports": {
-		"#shared/*": "./shared/*.ts",
-		"#shared/own-profile-setting": "./shared/own-profile-setting.tsx"
-	},
 	"engines": {
 		"bun": ">=1.2.0"
 	},

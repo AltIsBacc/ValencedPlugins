@@ -2,7 +2,7 @@ import Page from '@valenced/components/Page'
 import type { JsonStorage } from '@valenced/json-storage'
 import type { PluginSettingsComponent } from '@valenced/plugins/types'
 import type { ComponentProps } from 'react'
-import type { OwnProfileStorage } from '#shared/own-profile-theme'
+import type { OwnProfileStorage } from './own-profile-theme'
 
 type Props = ComponentProps<
 	PluginSettingsComponent<{ jsonStorage: OwnProfileStorage }>
