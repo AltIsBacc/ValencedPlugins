@@ -5,16 +5,32 @@
   "plugins": {
     "thatmg393.dev.theme.rose.debug": {
       "name": "Rosé (debug)",
-      "description": "A soft rose pink theme with dark, light and AMOLED variants.",
+      "description": "A soft rose pink theme with dark, light and AMOLED variants. (416bea5)",
       "author": "ThatMG393",
       "channels": {
-        "latest": "1.0.0.1"
+        "latest": "1.0.0.2"
       },
       "versions": {
         "1.0.0.1": {
           "url": "https://altisbacc.github.io/ValencedPlugins/pool/thatmg393.dev.theme.rose.debug@1.0.0.1.zip",
           "sha256": "4a9fbe86ba99c0a3359de54717451698232b7fc73695d07035eca490e0462903",
           "size": 13042,
+          "dependencies": {
+            "valenced.api": {
+              "version": ">=1 <2"
+            },
+            "discord": {
+              "version": "*"
+            },
+            "valenced.api.themes": {
+              "version": "*"
+            }
+          }
+        },
+        "1.0.0.2": {
+          "url": "https://altisbacc.github.io/ValencedPlugins/pool/thatmg393.dev.theme.rose.debug@1.0.0.2.zip",
+          "sha256": "a9ee785e0f6c821d630ed467bde3ab11925162e25a177c5f41c0f2ab9e2ec862",
+          "size": 13050,
           "dependencies": {
             "valenced.api": {
               "version": ">=1 <2"
