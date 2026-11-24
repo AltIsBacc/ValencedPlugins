@@ -1,0 +1,27 @@
+{
+	"format": 1,
+	"id": "altisbacc.message-logger",
+	"name": "Message Logger",
+	"description": "Keep deleted messages, attachments, and edit history in a SQLite database.",
+	"author": "AltIsBacc (https://github.com/AltIsBacc \"GitHub\")",
+	"contributors": [
+		"Palm <629368283354628116> (https://github.com/sponsors/PalmDevs \"Donations\") (https://palmdevs.me \"Website\") (https://github.com/PalmDevs \"GitHub\")"
+	],
+	"icon": "ChatXIcon",
+	"version": "1.0.0",
+	"dependencies": {
+		"valenced.api": {
+			"version": ">=1 <2"
+		},
+		"discord": {
+			"version": ">=352.2"
+		}
+	},
+	"dist": {
+		"script": "index.js",
+		"android": {
+			"path": "plugin.jar",
+			"class": "altisbacc.messagelogger.MessageLogger"
+		}
+	}
+}
